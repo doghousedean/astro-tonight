@@ -66,7 +66,7 @@ def check_evening_conditions(summary_colours):
 
 def send_notification(good_blocks):
     astro_start_time = block_to_time(good_blocks[0])
-    print(f"Good conditions for astronomy on {astro_start_time.strftime("%d %b %Y %H:00:00")}!")
+    print(f"Good conditions for astronomy on {astro_start_time.strftime("%d %b %Y at %H:00:00")}")
 
 def block_to_time(block):
     current_hour = datetime.now().hour % 2
