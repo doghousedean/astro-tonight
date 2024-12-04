@@ -39,7 +39,9 @@ def analyze_summary(image_path, debug_path=None):
     draw = ImageDraw.Draw(debug_image)
 
     for col in range(start_col, end_col, step):
-        r, g, b = pixels[summary_row, col][:3]  # Extract RGB values
+        r, g, b = pixels[summary_row, col][:3]
+        # Uncomment for debugging
+        # print(f"Pixel at {col}: {r}, {g}, {b}")
         colour = classify_colour(r,g,b)
         summary_colours.append(colour)
 
@@ -62,8 +64,9 @@ def check_evening_conditions(summary_colours):
         'states': summary_colours
     }
 
-def send_notification():
-    print("Good conditions for astronomy this evening!")
+def send_notification(good_blocks):
+    astro_start_time = block_to_time(good_blocks[0])
+    print(f"Good conditions for astronomy on {astro_start_time.strftime("%d %b %Y %H:00:00")}!")
 
 def block_to_time(block):
     current_hour = datetime.now().hour % 2
@@ -84,7 +87,7 @@ if __name__ == "__main__":
         summary_colours = analyze_summary(IMAGE_PATH, debug_path=DEBUG_PATH)
 
         if check_evening_conditions(summary_colours)['go'] == 'yes':
-            send_notification()
+            send_notification([i for i,v in enumerate(summary_colours) if v == 'green'])
         else:
             print("No luck, best get browsing firstlightoptics.com")
     else:
