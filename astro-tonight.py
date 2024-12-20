@@ -2,7 +2,7 @@ import requests
 from PIL import Image, ImageDraw
 import numpy as np
 from datetime import datetime, timedelta
-from os import getenv
+from os import getenv, path, remove
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -92,3 +92,9 @@ if __name__ == "__main__":
             print("No luck, best get browsing firstlightoptics.com")
     else:
         print("Failed to download the forecast image.")
+        
+    # Clean up files
+    if path.exists(IMAGE_PATH):
+        remove(IMAGE_PATH)
+    if path.exists(DEBUG_PATH):
+        remove(DEBUG_PATH)
